@@ -18,9 +18,19 @@ const dmSerifText = DM_Serif_Text({
   subsets: ["latin"],
 });
 
+const description =
+  "Personalized news, delivered via SMS. No apps, no clluter. Stay informed and ask questions to dig deeper.";
 export const metadata: Metadata = {
   title: "Textpaper",
-  description: "Personalized, interactive, SMS-based news.",
+  description,
+  openGraph: {
+    images: "/coming-soon.png",
+    description,
+    url: "https://textpaper.co",
+    siteName: "Textpaper",
+    type: "website",
+    title: "Textpaper",
+  },
 };
 
 export default function RootLayout({
