@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { Input } from "./input";
-import { Button } from "./button";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import { ArrowRight, LoaderCircle } from "lucide-react";
-import NotifyModal from "./notify-modal";
+import NotifyModal from "../modals/notify-modal";
 
 export default function NotifyForm() {
   const [email, setEmail] = useState("");
