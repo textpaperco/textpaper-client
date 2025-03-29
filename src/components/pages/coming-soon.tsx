@@ -1,5 +1,5 @@
 "use client";
-import NotifyForm from "./notify-form";
+import NotifyForm from "../forms/notify-form";
 
 export default function ComingSoon() {
   return (

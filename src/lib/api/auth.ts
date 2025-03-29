@@ -1,4 +1,5 @@
 import { api } from ".";
+import type { APIResponse } from ".";
 import type { User } from "./user";
 
 export type AuthRequest = {
@@ -19,7 +20,10 @@ export type VerifyRequest = {
 export const authApi = api.injectEndpoints({
   overrideExisting: false,
   endpoints: (build) => ({
-    authenticate: build.query<AuthResponse, AuthRequest>({
+    authenticate: build.mutation<
+      APIResponse<AuthResponse>,
+      AuthRequest
+    >({
       query(body) {
         return {
           url: "/auth",
@@ -28,12 +32,13 @@ export const authApi = api.injectEndpoints({
         };
       },
     }),
-    verify: build.mutation<User, VerifyRequest>({
+    verify: build.mutation<APIResponse<User>, VerifyRequest>({
       query(body) {
         return {
           url: "/auth/verify",
           method: "POST",
           body,
+          credentials: "include",
         };
       },
       invalidatesTags: ["User"],
@@ -50,7 +55,7 @@ export const authApi = api.injectEndpoints({
 });
 
 export const {
-  useAuthenticateQuery,
+  useAuthenticateMutation,
   useVerifyMutation,
   useLogoutMutation,
 } = authApi;

@@ -8,19 +8,19 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "./dialog";
+} from "../ui/dialog";
 import { CheckCircle, LoaderCircle } from "lucide-react";
-import { Label } from "./label";
-import { Input } from "./input";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./select";
+} from "../ui/select";
 import { SubscriberSource } from "@/lib/notion";
-import { Button } from "./button";
+import { Button } from "../ui/button";
 
 interface NotifyModalProps {
   isOpen: boolean;
