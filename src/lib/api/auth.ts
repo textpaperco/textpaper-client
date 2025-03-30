@@ -43,13 +43,15 @@ export const authApi = api.injectEndpoints({
       },
       invalidatesTags: ["User"],
     }),
-    logout: build.mutation({
+    logout: build.mutation<APIResponse<void>, void>({
       query() {
         return {
           url: "/auth/logout",
           method: "POST",
+          credentials: "include",
         };
       },
+      invalidatesTags: ["User"],
     }),
   }),
 });
