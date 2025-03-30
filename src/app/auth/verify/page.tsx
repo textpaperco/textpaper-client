@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import OTPVerificationForm from "@/components/forms/otp-verification-form";
+import { Suspense } from "react";
 
 export default function Verify() {
   return (
@@ -29,7 +30,10 @@ export default function Verify() {
             We&apos;ve sent a verification code to your phone number.
           </p>
         </div>
-        <OTPVerificationForm />
+        {/* TODO: Make a proper loading skeleton for this */}
+        <Suspense fallback={<p>Loading...</p>}>
+          <OTPVerificationForm />
+        </Suspense>
       </div>
     </div>
   );
