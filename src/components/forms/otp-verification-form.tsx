@@ -24,6 +24,7 @@ import { APIErrorResponse } from "@/lib/api";
 import { toast } from "sonner";
 import { Alert, AlertDescription } from "../ui/alert";
 import { AlertCircle } from "lucide-react";
+import { formatPhoneNumberIntl } from "react-phone-number-input";
 
 const formSchema = z.object({
   code: z
@@ -74,9 +75,9 @@ export default function OTPVerificationForm() {
   useEffect(() => {
     if (!isLoading && !isError && data) {
       if (data.status === 200) {
-        router.push("/dashboard");
+        router.push("/app/dashboard");
       } else if (data.status === 201) {
-        router.push("/welcome");
+        router.push("/app/welcome");
       }
     }
     if (isError && error) {
@@ -97,9 +98,12 @@ export default function OTPVerificationForm() {
   useEffect(() => {
     if (!isAuthLoading && !isAuthError && authData) {
       setCountdown(20);
-      toast.success(`Code sent to ${phone_number}`, {
-        duration: 3000,
-      });
+      toast.success(
+        `Code sent to ${formatPhoneNumberIntl(phone_number!)}`,
+        {
+          duration: 3000,
+        },
+      );
     }
     if (isAuthError && authError) {
       console.log(authError);
@@ -155,7 +159,9 @@ export default function OTPVerificationForm() {
             <p className="text-sm text-muted-foreground">
               Enter the 6-digit code sent to
             </p>
-            <p className="font-medium">{phone_number}</p>
+            <p className="font-medium">
+              {formatPhoneNumberIntl(phone_number)}
+            </p>
           </div>
 
           <FormField
