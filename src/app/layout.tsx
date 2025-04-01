@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto, Roboto_Mono, DM_Serif_Text } from "next/font/google";
 import Providers from "./providers";
+import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -44,6 +45,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${roboto.variable} ${robotoMono.variable} ${dmSerifText.variable} antialiased`}>
+        <NextTopLoader color="var(--foreground)" />
         <Providers>{children}</Providers>
         <Toaster />
       </body>
