@@ -81,7 +81,7 @@ export default function OTPVerificationForm() {
       }
     }
     if (isError && error) {
-      console.log(error);
+      console.error(error);
       if ("status" in error) {
         const { status, data } = error;
         if (typeof status === "number") {
@@ -106,7 +106,7 @@ export default function OTPVerificationForm() {
       );
     }
     if (isAuthError && authError) {
-      console.log(authError);
+      console.error(authError);
       if ("status" in authError) {
         const { status, data } = authError;
         if (typeof status === "number") {
