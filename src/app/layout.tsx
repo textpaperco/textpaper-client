@@ -1,13 +1,28 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Mono, DM_Serif_Text } from "next/font/google";
+import {
+  Roboto_Mono,
+  DM_Serif_Text,
+  Poppins,
+} from "next/font/google";
 import Providers from "./providers";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
-const roboto = Roboto({
-  variable: "--font-roboto",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: [
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+  ],
 });
 
 const robotoMono = Roboto_Mono({
@@ -34,6 +49,11 @@ export const metadata: Metadata = {
     type: "website",
     title: "Textpaper",
   },
+  icons: {
+    icon: "/favicon/favicon-32x32.png",
+    apple: "/favicon/apple-touch-icon.png",
+  },
+  manifest: "/favicon/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -44,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.variable} ${robotoMono.variable} ${dmSerifText.variable} antialiased`}>
+        className={`${poppins.variable} ${robotoMono.variable} ${dmSerifText.variable} antialiased`}>
         <NextTopLoader color="var(--foreground)" />
         <Providers>{children}</Providers>
         <Toaster />
