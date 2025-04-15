@@ -13,6 +13,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import ComingSoon from "@/components/pages/coming-soon";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
 const features = [
   {
@@ -75,44 +77,7 @@ export default function Home() {
   }
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between py-4 max-w-6xl mx-auto">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/textpaper-logo.svg"
-              alt=""
-              width={100}
-              height={100}
-              className="h-8 w-8"
-            />
-            <span className="text-xl font-bold tracking-tight">
-              Textpaper
-            </span>
-          </div>
-          <nav className="hidden md:flex gap-6">
-            <Link
-              href="#features"
-              className="text-sm font-medium transition-colors hover:text-primary">
-              Features
-            </Link>
-            <Link
-              href="#how-it-works"
-              className="text-sm font-medium transition-colors hover:text-primary">
-              How It Works
-            </Link>
-            <Link
-              href="#pricing"
-              className="text-sm font-medium transition-colors hover:text-primary">
-              Pricing
-            </Link>
-          </nav>
-          <div>
-            <Button asChild>
-              <Link href="/auth">Get Started</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Navbar />
       <main className="flex-1">
         <section className="container max-w-6xl mx-auto py-12 md:py-24 lg:py-32">
           <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
@@ -379,39 +344,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="border-t py-6 md:py-0">
-        <div className="container max-w-6xl mx-auto flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/textpaper-logo.svg"
-              alt=""
-              width={100}
-              height={100}
-              className="size-6"
-            />
-            <p className="text-sm font-medium">
-              Textpaper &copy; {new Date().getFullYear()}
-            </p>
-          </div>
-          <div className="flex gap-4 md:gap-6">
-            <Link
-              href="#"
-              className="text-sm font-medium underline-offset-4 hover:underline">
-              Terms
-            </Link>
-            <Link
-              href="#"
-              className="text-sm font-medium underline-offset-4 hover:underline">
-              Privacy
-            </Link>
-            <Link
-              href="#"
-              className="text-sm font-medium underline-offset-4 hover:underline">
-              Contact
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

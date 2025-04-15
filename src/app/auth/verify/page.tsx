@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
+import Wordmark from "@/components/svg/textpaper-wordmark.svg";
 import OTPVerificationForm from "@/components/forms/otp-verification-form";
 import { Suspense } from "react";
 
@@ -10,16 +10,7 @@ export default function Verify() {
       <Link
         href="/"
         className="absolute left-4 top-4 md:left-8 md:top-8 flex items-center gap-2">
-        <Image
-          src="/textpaper-logo.svg"
-          alt="Textpaper logo"
-          width={100}
-          height={100}
-          className="size-8"
-        />
-        <span className="text-xl font-bold tracking-tight">
-          Textpaper
-        </span>
+        <Wordmark className="h-9 w-auto" />
       </Link>
       <div className="flex flex-col justify-center space-y-6 sm:w-[350px] w-full">
         <div className="flex flex-col space-y-2 text-center">
