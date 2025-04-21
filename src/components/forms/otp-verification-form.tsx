@@ -13,8 +13,8 @@ import {
 } from "../ui/input-otp";
 import { Button } from "../ui/button";
 import {
+  useSendOTPMutation,
   useAuthenticateMutation,
-  useVerifyMutation,
 } from "@/lib/api/auth";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -27,12 +27,12 @@ import { AlertCircle } from "lucide-react";
 import { formatPhoneNumberIntl } from "react-phone-number-input";
 
 const formSchema = z.object({
-  code: z
+  otp: z
     .string()
     .min(6, { message: "Code must be 6 characters long." })
     .regex(/^\d+$/, { message: "Code must only contain numbers." }),
-  method_id: z.string(),
-  phone_number: z.string(),
+  methodId: z.string(),
+  phoneNumber: z.string(),
 });
 
 export default function OTPVerificationForm() {
@@ -40,28 +40,28 @@ export default function OTPVerificationForm() {
   const router = useRouter();
   const [countdown, setCountdown] = useState(20);
   const [apiError, setApiError] = useState("");
-  const method_id = searchParams.get("method_id");
-  const phone_number = searchParams.get("phone_number");
+  const methodId = searchParams.get("methodId");
+  const phoneNumber = searchParams.get("phoneNumber");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      code: "",
-      method_id: method_id || "",
-      phone_number: phone_number || "",
+      otp: "",
+      methodId: methodId || "",
+      phoneNumber: phoneNumber || "",
     },
   });
-  const [verify, { data, isLoading, isError, error }] =
-    useVerifyMutation();
+  const [authenticate, { data, isLoading, isError, error }] =
+    useAuthenticateMutation();
 
   const [
-    authenticate,
+    sendOTP,
     {
-      data: authData,
-      isLoading: isAuthLoading,
-      isError: isAuthError,
-      error: authError,
+      data: sendOTPData,
+      isLoading: isSendOTPLoading,
+      isError: isSendOTPError,
+      error: sendOTPError,
     },
-  ] = useAuthenticateMutation();
+  ] = useSendOTPMutation();
 
   useEffect(() => {
     if (countdown > 0) {
@@ -74,10 +74,10 @@ export default function OTPVerificationForm() {
 
   useEffect(() => {
     if (!isLoading && !isError && data) {
-      if (data.status === 200) {
-        router.push("/app/dashboard");
-      } else if (data.status === 201) {
+      if (data.payload.newUser) {
         router.push("/app/welcome");
+      } else {
+        router.push("/app/dashboard");
       }
     }
     if (isError && error) {
@@ -96,19 +96,19 @@ export default function OTPVerificationForm() {
   }, [data, error, isError, isLoading, router]);
 
   useEffect(() => {
-    if (!isAuthLoading && !isAuthError && authData) {
+    if (!isSendOTPLoading && !isSendOTPError && sendOTPData) {
       setCountdown(20);
       toast.success(
-        `Code sent to ${formatPhoneNumberIntl(phone_number!)}`,
+        `Code sent to ${formatPhoneNumberIntl(phoneNumber!)}`,
         {
           duration: 3000,
         },
       );
     }
-    if (isAuthError && authError) {
-      console.error(authError);
-      if ("status" in authError) {
-        const { status, data } = authError;
+    if (isSendOTPError && sendOTPError) {
+      console.error(sendOTPError);
+      if ("status" in sendOTPError) {
+        const { status, data } = sendOTPError;
         if (typeof status === "number") {
           if (status < 500) {
             const apiError = data as APIErrorResponse;
@@ -119,23 +119,23 @@ export default function OTPVerificationForm() {
       }
     }
   }, [
-    authData,
-    authError,
-    isAuthError,
-    isAuthLoading,
+    sendOTPData,
+    sendOTPError,
+    isSendOTPError,
+    isSendOTPLoading,
     isLoading,
-    phone_number,
+    phoneNumber,
   ]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { code, method_id, phone_number } = values;
-    await verify({ code, method_id, phone_number });
+    const { otp, methodId, phoneNumber } = values;
+    await authenticate({ otp, methodId, phoneNumber });
   };
-  const onResend = async (phone_number: string) => {
-    await authenticate({ phone_number });
+  const onResend = async (phoneNumber: string) => {
+    await sendOTP({ phoneNumber });
   };
 
-  if (!method_id || !phone_number) {
+  if (!methodId || !phoneNumber) {
     return (
       <Card className="p-6">
         <p className="text-red-500">Invalid verification link.</p>
@@ -160,13 +160,13 @@ export default function OTPVerificationForm() {
               Enter the 6-digit code sent to
             </p>
             <p className="font-medium">
-              {formatPhoneNumberIntl(phone_number)}
+              {formatPhoneNumberIntl(phoneNumber)}
             </p>
           </div>
 
           <FormField
             control={form.control}
-            name="code"
+            name="otp"
             render={({ field }) => (
               <FormItem className="flex flex-col items-center justify-center">
                 <FormControl>
@@ -207,8 +207,8 @@ export default function OTPVerificationForm() {
                 <Button
                   variant="link"
                   className="p-0 h-auto"
-                  onClick={() => onResend(phone_number!)}>
-                  {isAuthLoading ? (
+                  onClick={() => onResend(phoneNumber!)}>
+                  {isSendOTPLoading ? (
                     <>
                       <Loader />
                       Sending

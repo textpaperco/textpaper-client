@@ -17,7 +17,7 @@ import {
   FormControl,
   FormMessage,
 } from "../ui/form";
-import { useAuthenticateMutation } from "@/lib/api/auth";
+import { useSendOTPMutation } from "@/lib/api/auth";
 import { APIErrorResponse } from "@/lib/api";
 import { z } from "zod";
 import { isValidPhoneNumber } from "react-phone-number-input";
@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
-  phone_number: z
+  phoneNumber: z
     .string()
     .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
 });
@@ -34,25 +34,25 @@ export default function PhoneAuthForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      phone_number: "",
+      phoneNumber: "",
     },
   });
   const [apiError, setApiError] = useState("");
   const router = useRouter();
-  const [authenticate, { data, isLoading, isError, error }] =
-    useAuthenticateMutation();
+  const [sendOTP, { data, isLoading, isError, error }] =
+    useSendOTPMutation();
 
   const onSubmit = async ({
-    phone_number,
+    phoneNumber,
   }: z.infer<typeof formSchema>) => {
-    authenticate({ phone_number });
+    sendOTP({ phoneNumber });
   };
 
   useEffect(() => {
     if (!isLoading && !isError && data) {
-      const { method_id, phone_number } = data.payload;
+      const { methodId, phoneNumber } = data.payload;
       router.push(
-        `/auth/verify?method_id=${encodeURIComponent(method_id)}&phone_number=${encodeURIComponent(phone_number)}`,
+        `/auth/verify?methodId=${encodeURIComponent(methodId)}&phoneNumber=${encodeURIComponent(phoneNumber)}`,
       );
     }
     if (isError && error) {
@@ -83,7 +83,7 @@ export default function PhoneAuthForm() {
           className="space-y-4">
           <FormField
             control={form.control}
-            name="phone_number"
+            name="phoneNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone number</FormLabel>

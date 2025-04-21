@@ -17,16 +17,16 @@ export default function Dashboard() {
       {data && (
         <div>
           <p>User ID: {data.payload.id}</p>
-          <p>Phone Number: {data.payload.phone_number}</p>
-          <p>First Name: {data.payload.first_name}</p>
-          <p>Last Name: {data.payload.last_name}</p>
+          <p>Phone Number: {data.payload.phoneNumber}</p>
+          <p>First Name: {data.payload.firstName}</p>
+          <p>Last Name: {data.payload.lastName}</p>
           <p>
             News Preferences:{" "}
-            {data.payload.news_preferences?.join(", ")}
+            {data.payload.newsPreferences?.join(", ")}
           </p>
           <p>Frequency: {data.payload.frequency}</p>
-          <p>Create Time: {data.payload.create_time}</p>
-          <p>Update Time: {data.payload.update_time}</p>
+          <p>Create Time: {data.payload.createTime}</p>
+          <p>Update Time: {data.payload.updateTime}</p>
         </div>
       )}
       <Button onClick={() => logout()}>
