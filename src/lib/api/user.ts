@@ -12,9 +12,9 @@ export type User = {
   updateTime: string;
 };
 
-export type UpdateUser = Omit<
+export type UpdateUserRequest = Omit<
   User,
-  "id" | "create_time" | "update_time"
+  "id" | "createTime" | "updateTime"
 >;
 
 export const userApi = api.injectEndpoints({
@@ -29,7 +29,7 @@ export const userApi = api.injectEndpoints({
         };
       },
     }),
-    updateUser: build.mutation<APIResponse<User>, UpdateUser>({
+    updateUser: build.mutation<APIResponse<User>, UpdateUserRequest>({
       query(body) {
         return {
           url: "/user",
