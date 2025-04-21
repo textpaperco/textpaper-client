@@ -1,41 +1,47 @@
 import { api } from ".";
 import type { APIResponse } from ".";
-import type { User } from "./user";
 
-export type AuthRequest = {
-  phone_number: string;
+export type SendOTPRequest = {
+  phoneNumber: string;
 };
 
-export type AuthResponse = {
-  method_id: string;
-  phone_number: string;
+export type SendOTPResponse = {
+  methodId: string;
+  phoneNumber: string;
 };
 
-export type VerifyRequest = {
-  method_id: string;
-  phone_number: string;
-  code: string;
+export type AuthenticateRequest = {
+  methodId: string;
+  phoneNumber: string;
+  otp: string;
+};
+
+export type AuthenticateResponse = {
+  newUser: boolean;
 };
 
 export const authApi = api.injectEndpoints({
   overrideExisting: false,
   endpoints: (build) => ({
-    authenticate: build.mutation<
-      APIResponse<AuthResponse>,
-      AuthRequest
+    sendOTP: build.mutation<
+      APIResponse<SendOTPResponse>,
+      SendOTPRequest
     >({
       query(body) {
         return {
-          url: "/auth",
+          url: "/auth/send-otp",
           method: "POST",
           body,
         };
       },
     }),
-    verify: build.mutation<APIResponse<User>, VerifyRequest>({
+    authenticate: build.mutation<
+      APIResponse<AuthenticateResponse>,
+      AuthenticateRequest
+    >({
       query(body) {
         return {
-          url: "/auth/verify",
+          url: "/auth/authenticate",
           method: "POST",
           body,
           credentials: "include",
@@ -57,7 +63,7 @@ export const authApi = api.injectEndpoints({
 });
 
 export const {
+  useSendOTPMutation,
   useAuthenticateMutation,
-  useVerifyMutation,
   useLogoutMutation,
 } = authApi;

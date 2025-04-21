@@ -3,13 +3,13 @@ import type { APIResponse } from ".";
 
 export type User = {
   id: string;
-  phone_number: string;
-  first_name?: string;
-  last_name?: string;
-  news_preferences?: string[];
+  phoneNumber: string;
+  firstName?: string;
+  lastName?: string;
+  newsPreferences?: string[];
   frequency?: string;
-  create_time: string;
-  update_time: string;
+  createTime: string;
+  updateTime: string;
 };
 
 export type UpdateUser = Omit<
