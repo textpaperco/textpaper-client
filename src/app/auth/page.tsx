@@ -1,8 +1,26 @@
+"use client";
 import Link from "next/link";
 import Wordmark from "@/components/svg/textpaper-wordmark.svg";
 import PhoneAuthForm from "@/components/forms/phone-auth-form";
+import { useIsAuthorized } from "@/hooks/authorized";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import FullPageLoading from "@/components/pages/full-page-loading";
 
 export default function AuthPage() {
+  const { isAuthorized, isLoading } = useIsAuthorized();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && isAuthorized) {
+      router.replace("/app/dashboard");
+    }
+  }, [isAuthorized, isLoading, router]);
+
+  if (isLoading) {
+    return <FullPageLoading />;
+  }
+
   return (
     <div className="max-w-6xl mx-auto flex h-screen w-screen flex-col items-center justify-center">
       <Link
